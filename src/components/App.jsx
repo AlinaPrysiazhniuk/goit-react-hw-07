@@ -23,8 +23,8 @@ function App() {
       <ContactForm />
 
       {loading && <Loader>Loading contacts....</Loader>}
-      {!loading && <SearchContact />}
-      {error && <Error>Error....</Error>}
+      {!loading && !error && <SearchContact />}
+      {error && <Error>Error! </Error>}
       <ContactList />
     </>
   );
