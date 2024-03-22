@@ -1,37 +1,42 @@
-import { nanoid } from 'nanoid';
-
 import { createSlice } from '@reduxjs/toolkit';
+import { deleteContact, fetchContacts } from './contactsOps';
 
 const slice = createSlice({
   name: 'contacts',
   initialState: {
     items: [],
+    loading: false,
+    error: null,
   },
-  reducers: {
-    deleteContact(state, action) {
-      state.items = state.items.filter(
-        contact => contact.id !== action.payload
-      );
-    },
-    addContact: {
-      reducer: (state, action) => {
-        return {
-          ...state,
-          items: [...state.items, action.payload],
-        };
-      },
-      prepare: value => {
-        return {
-          payload: {
-            ...value,
-            id: nanoid(),
-          },
-        };
-      },
-    },
-  },
+  extraReducers: builder =>
+    builder
+      .addCase(fetchContacts.pending, state => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(fetchContacts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+        state.error = false;
+      })
+      .addCase(fetchContacts.rejected, state => {
+        state.loading = false;
+        state.error = true;
+      })
+      .addCase(deleteContact.pending, state => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(deleteContact.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = state.items.filter(item => item.id !== action.payload.id);
+        state.error = false;
+      })
+      .addCase(deleteContact.rejected, state => {
+        state.loading = false;
+        state.error = true;
+      }),
 });
 
-export const { deleteContact, addContact } = slice.actions;
 export default slice.reducer;
 export const selectContacts = state => state.contacts.items;
