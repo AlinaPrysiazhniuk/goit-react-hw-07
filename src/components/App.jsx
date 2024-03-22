@@ -3,13 +3,13 @@ import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import SearchContact from './SearchBox/SearchBox';
 import { useDispatch } from 'react-redux';
-import { fetchAll } from '../redux/contactsOps';
+import { fetchContacts } from '../redux/contactsOps';
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchAll());
+    dispatch(fetchContacts());
   }, [dispatch]);
 
   return (
