@@ -1,16 +1,16 @@
 import { useId } from 'react';
 import css from './SearchBox.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFilter } from '../../redux/filtersSlice';
+import { changeFilteredContacts } from '../../redux/filtersSlice';
 import { selectNameFilter } from '../../redux/filtersSlice';
-
+//
 export default function SearchContact() {
   const searchBoxId = useId();
   const dispatch = useDispatch();
   const valueFilter = useSelector(selectNameFilter);
 
   const valueChange = e => {
-    dispatch(changeFilter(e.target.value));
+    dispatch(changeFilteredContacts(e.target.value));
   };
 
   return (
@@ -27,5 +27,3 @@ export default function SearchContact() {
     </div>
   );
 }
-
-//dfdfdfdf
